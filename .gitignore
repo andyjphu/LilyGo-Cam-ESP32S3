@@ -2,4 +2,4 @@
 .vscode
 script
 build
-*\secrets\secrets.h
+lib\secrets\secrets.h
