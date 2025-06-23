@@ -25,7 +25,7 @@ void setupSpeechRecognition();
 #warning "Voice wake-up does not support ArduinoIDE, only supports platformio , see README"
 #endif
 
-QueueHandle_t recVocie = NULL;
+QueueHandle_t recVoice = NULL;
 void getWakeupReason();
 
 static LilyGoTrigger status = LILYGO_TRIGGER_FROM_NONE;
@@ -39,7 +39,7 @@ void pir_interrupt_event()
 {
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     static uint8_t status = LILYGO_TRIGGER_FROM_PIR;
-    xQueueSendFromISR(recVocie, &status, &xHigherPriorityTaskWoken);
+    xQueueSendFromISR(recVoice, &status, &xHigherPriorityTaskWoken);
     if ( xHigherPriorityTaskWoken ) {
         portYIELD_FROM_ISR ();
     }
@@ -59,7 +59,7 @@ void loopPeripherals(void *ptr)
     pinMode(EXTERN_PIN2, OUTPUT);
 
     while (1) {
-        if (xQueueReceive(recVocie, &status, pdMS_TO_TICKS(2))) {
+        if (xQueueReceive(recVoice, &status, pdMS_TO_TICKS(2))) {
             resetScreenTimer();
             setScreenStatus(false);
         }
@@ -75,16 +75,16 @@ void setup()
 {
     bool ret = false;
 
-    recVocie = xQueueCreate(2, sizeof(uint8_t));
+    recVoice = xQueueCreate(2, sizeof(uint8_t));
 
     Serial.begin(115200);
 
     getWakeupReason();
 
     if (psramFound()) {
-        Serial.println("psram is find !");
+        Serial.println("psram is found !");
     } else {
-        Serial.println("psram not find !");
+        Serial.println("psram not found !");
     }
 
     // Initialize the board power parameters

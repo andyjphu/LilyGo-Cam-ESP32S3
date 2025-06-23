@@ -28,7 +28,7 @@ static TaskHandle_t             detectTask = NULL;
 static int32_t                  *i2s_buff = NULL;
 static int16_t                  *detect_buffer = NULL;
 
-extern QueueHandle_t            recVocie;
+extern QueueHandle_t            recVoice;
 
 static void i2s_init(void)
 {
@@ -99,7 +99,7 @@ static void detect_hander(void *ptr)
         if (res == AFE_FETCH_WWE_DETECTED) {
             Serial.println( ">>> Device wakeup <<<");
             status = LILYGO_TRIGGER_FROM_VOICE;
-            xQueueSend(recVocie, &status, pdTICKS_TO_MS(2));
+            xQueueSend(recVoice, &status, pdTICKS_TO_MS(2));
 
             digitalWrite(EXTERN_PIN1, 1 - digitalRead(EXTERN_PIN1));
             digitalWrite(EXTERN_PIN2, 1 - digitalRead(EXTERN_PIN2));
@@ -158,7 +158,7 @@ void setupVoiceWakeup()
 }
 
 
-void destroyVocieWakeup()
+void destroyVoiceWakeup()
 {
     if (afe_handle) {
         afe_handle->destroy(afe_data);

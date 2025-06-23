@@ -10,6 +10,7 @@
 #include <WiFi.h>
 #include <WiFiMulti.h>
 #include "esp_camera.h"
+#include <secrets.h>
 
 #define XPOWERS_CHIP_AXP2101
 #include "XPowersLib.h"
@@ -60,11 +61,10 @@ void setup()
      * step 2 : start network
     ***********************************/
 
-    // Please fill in the wifi ssid and password here
-    wifiMulti.addAP("ssid_from_AP_1", "your_password_for_AP_1");
-    wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
-    wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
-
+    wifiMulti.addAP(WIFI_SSID1, WIFI_SSID_PASSWORD1);
+    wifiMulti.addAP(WIFI_SSID2, WIFI_SSID_PASSWORD1);
+    wifiMulti.addAP(WIFI_SSID3, WIFI_SSID_PASSWORD1);
+        
     Serial.println("Connecting Wifi...");
     while (WiFi.status() != WL_CONNECTED) {
         wifiMulti.run();
